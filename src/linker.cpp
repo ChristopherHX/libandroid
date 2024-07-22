@@ -38,6 +38,11 @@ void linker::get_library_code_region(void *handle, size_t &base, size_t &size) {
     }
 }
 
+void linker::relocate(void *handle, const std::unordered_map<std::string, void *> &symbols) {
+    auto soinfo = soinfo_from_handle(handle);
+    soinfo->add_symbols(symbols);
+}
+
 extern "C" void __loader_assert(const char* file, int line, const char* msg) {
     fprintf(stderr, "linker assert failed at %s:%i: %s\n", file, line, msg);
     abort();

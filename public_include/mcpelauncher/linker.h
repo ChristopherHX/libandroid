@@ -70,6 +70,8 @@ namespace linker {
 
     void *load_library(const char *name, const std::unordered_map<std::string, void*> &symbols);
 
+    void relocate(void *handle, const std::unordered_map<std::string, void *> &symbols);
+
     size_t get_library_base(void *handle);
 
     void get_library_code_region(void *handle, size_t &base, size_t &size);
