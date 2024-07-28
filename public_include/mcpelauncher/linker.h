@@ -69,6 +69,7 @@ namespace linker {
     void init();
 
     void *load_library(const char *name, const std::unordered_map<std::string, void*> &symbols);
+    int unload_library(void *);
 
     void relocate(void *handle, const std::unordered_map<std::string, void *> &symbols);
 

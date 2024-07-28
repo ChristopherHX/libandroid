@@ -21,7 +21,18 @@ void linker::init() {
 }
 
 void *linker::load_library(const char *name, const std::unordered_map<std::string, void *> &symbols) {
-    return soinfo::load_library(name, symbols)->to_handle();
+    auto lib = soinfo::load_library(name, symbols);
+    lib->increment_ref_count();
+    return lib->to_handle();
+}
+
+int linker::unload_library(void* handle) {
+    auto lib = soinfo_from_handle(handle);
+    if(!lib || lib->get_ref_count() != 1) {
+        return 1;
+    }
+    
+    return dlclose(handle);
 }
 
 size_t linker::get_library_base(void *handle) {
